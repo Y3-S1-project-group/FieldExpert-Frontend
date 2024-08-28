@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Importing page routes
 import Home from './pages/Home';
-import ImageUpload from './pages/ImageUpload';
+import PestDetection from './pages/PestDetection';
 
 function App() {
   return (
@@ -11,10 +11,7 @@ function App() {
       <main>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/pestDetect' element={<ImageUpload />} />
-          <Route path='/diseaseDetect' element={<ImageUpload />} />
-          <Route path='/farmManagement' element={<ImageUpload />} />
-          <Route path='/fertilizer' element={<ImageUpload />} />
+          <Route path='/pestDetect' element={<PestDetection />} />
         </Routes>
       </main>
     </Router>
