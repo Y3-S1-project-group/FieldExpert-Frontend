@@ -7,3 +7,36 @@
   font-variation-settings:
     "wdth" 100;
 }
+
+/* Global styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif; /* Fallback font */
+  line-height: 1.6;
+  background-color: #f4f4f4; /* Light gray background */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 10px;
+  }
+}
