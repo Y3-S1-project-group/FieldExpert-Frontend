@@ -3,11 +3,11 @@ import axios from "axios";
 import Navbar from "../components/Navbar"; // If you have a Navbar component, otherwise remove this line
 
 const PestDetection = () => {
-  const [image, setImage] = useState(null);
-  const [result, setResult] = useState(null);
+  const [image, setImage] = useState(null); // Store the uploaded image
+  const [result, setResult] = useState(null); // Store the classification result
 
   const handleImageUpload = (e) => {
-    setImage(e.target.files[0]);
+    setImage(e.target.files[0]); // Save the uploaded image to state
   };
 
   const handleSubmit = async (e) => {
@@ -25,7 +25,7 @@ const PestDetection = () => {
           },
         }
       );
-      setResult(response.data);
+      setResult(response.data); // Save the classification result to state
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -35,12 +35,10 @@ const PestDetection = () => {
     <div>
       <Navbar />
       <div className="p-6 bg-white rounded-lg shadow-md">
-        <h2 className="mb-4 text-3xl font-bold text-black">
-          පලිබෝධකයන් හදුනාගැනීම
-        </h2>
+        <h2 className="mb-4 text-3xl font-bold text-black">පලිබෝධකයන් හදුනාගැනීම</h2>
         <p className="mb-6 text-black">
-          අපගේ පළිබෝධ හඳුනාගැනීමේ පද්ධතිය භාවිතයෙන් බෝග පළිබෝධ හඳුනා ගන්න. උන්
-          මර්දනය කිරීම සඳහා අපගේ හොඳම පළිබෝධනාශක ද අපි නිර්දේශ කරමු.
+          අපගේ පළිබෝධ හඳුනාගැනීමේ පද්ධතිය භාවිතයෙන් බෝග පළිබෝධ හඳුනා ගන්න. 
+          උන් මර්දනය කිරීම සඳහා අපගේ හොඳම පළිබෝධනාශක ද අපි නිර්දේශ කරමු.
         </p>
         <form onSubmit={handleSubmit} className="flex flex-col items-center">
           <input
@@ -55,17 +53,21 @@ const PestDetection = () => {
             හඳුනාගැනීමට උඩුගත කරන්න
           </button>
         </form>
-      </div>
-      <br />
-      <div className="p-6 bg-white rounded-lg shadow-md result">
         {result && (
-          <div className="mt-6">
-            <h3 className="text-xl font-semibold text-black">
-              Classification Result:
-            </h3>
-            <p className="text-black">
-              {result.tagName}: {result.probability.toFixed(2)}
-            </p>
+          <div className="flex items-center mt-6 space-x-6">
+            {/* Display the uploaded image */}
+            <img 
+              src={URL.createObjectURL(image)} 
+              alt="Uploaded Image" 
+              className="w-48 h-48 rounded-md"
+            />
+            {/* Display the classification result next to the image */}
+            <div>
+              <h3 className="text-xl font-semibold text-black">Classification Result:</h3>
+              <p className="text-black">
+                {result.tagName}: {result.probability.toFixed(2)}
+              </p>
+            </div>
           </div>
         )}
       </div>
