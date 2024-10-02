@@ -1,192 +1,494 @@
-//CropRecommendation.jsx
+// CropRecommendation.jsx
 
 import { useState } from "react";
 import axios from "axios";
-
+import Navbar from "../components/Navbar";
 
 const CropRecommendation = () => {
-  const [formData, setFormData] = useState({
-    soil_type: "",
-    climate: "",
-    area: "",
-    water_availability: "",
-    previous_crops: "",
-  });
 
-  const [recommendation, setRecommendation] = useState("");
+  const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+  
+  const [location, setLocation] = useState("");
+  const [plantingMonth, setPlantingMonth] = useState("");
+  const [cropMaturityTime, setMaturityTime] = useState("");
+  const [financialCapital, setFinancialCapital] = useState("");
+  const [area, setArea] = useState("");
+  const [soilType, setSoilType] = useState("");
+  const [topography, setTopography] = useState("");
+  const [waterSource, setWaterSource] = useState("");
+  const [waterAvailability, setWaterAvailability] = useState("");
+  const [labor, setLabor] = useState("");
+  const [objectives, setObjectives] = useState([]);
+  const [cropSuggestions, setCropSuggestions] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-  
-    // Prepare the prompt for the API
-    const prompt = `Given the following details, recommend the best crop for the farmer:
-     - Soil Type: ${formData.soil_type}
-     - Climate: ${formData.climate}
-     - Area: ${formData.area} acres
-     - Water Availability: ${formData.water_availability}
-     - Previous Crops: ${formData.previous_crops || "None"}
-     
-     Provide the crop that would grow best under these conditions.`;
-  
+    setError("");
+    setCropSuggestions("");
+
     try {
-      // Call OpenAI API
-      const response = await axios.post(
-        "https://api.openai.com/v1/completions",
+      if (
+        !location ||
+        !plantingMonth ||
+        !cropMaturityTime ||
+        !financialCapital ||
+        !area ||
+        !soilType ||
+        !topography ||
+        !waterSource ||
+        !waterAvailability ||
+        !labor ||
+        !objectives
+      ) {
+        setError("Please fill in all the required fields.");
+        return;
+      }
+
+      const messages = [
         {
-          model: "text-davinci-003",
-          prompt,
-          max_tokens: 100,
+          role: "system",
+          content:
+            "You are a Sri Lankan agricultural expert providing crop suggestions based on farmland conditions.",
+        },
+        {
+          role: "user",
+          content: `I'm a farmer, and my farmland is located in the ${location} district of Sri Lanka. I hope to plant a new crop in ${plantingMonth}, expecting a ${cropMaturityTime} months maturity time. I have a capital of ${financialCapital} Sri Lankan rupees, and my farmland area is ${area} acres. The soil type is ${soilType}, and the topography of my land is ${topography}. I have access to a water source which is ${waterSource}, and the water availability is ${waterAvailability}. Additionally, the labor availability is ${labor}. Objectives of this planting are ${objectives}. Based on these details, please suggest a list of the most suitable crops to plant.`,
+        },
+      ];
+
+      const response = await axios.post(
+        "https://api.openai.com/v1/chat/completions",
+        {
+          model: "gpt-3.5-turbo",
+          messages: messages,
+          max_tokens: 500,
           temperature: 0.7,
         },
         {
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+            Authorization: `Bearer ${apiKey}`,
           },
         }
       );
-      // Get the recommendation from the response
-      const cropRecommendation = response.data.choices[0].text.trim();
-      setRecommendation(`Recommended Crop: ${cropRecommendation}`);
+
+      setCropSuggestions(response.data.choices[0].message.content);
     } catch (error) {
       console.error("Error fetching crop recommendation:", error);
-      setRecommendation("Failed to get recommendation. Please try again.");
+      setError("Failed to fetch crop recommendation. Please try again.");
+    } finally {
+      setLoading(false);
     }
-  
-    setLoading(false);
   };
 
   return (
-    <div className="px-4 mx-auto">
-      <h2 className="mb-6 text-2xl font-bold">Crop Recommendation Service</h2>
-      <form
-        onSubmit={handleSubmit}
-        className="grid grid-cols-1 gap-6 md:grid-cols-2"
-      >
-        {/* Soil Type Dropdown */}
-        <div className="mb-4">
-          <label
-            htmlFor="soil_type"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Soil Type
-          </label>
-          <select
-            id="soil_type"
-            name="soil_type"
-            value={formData.soil_type}
-            onChange={handleChange}
-            className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            required
-          >
-            <option value="">Select Soil Type</option>
-            <option value="Sandy">Sandy</option>
-            <option value="Clay">Clay</option>
-            <option value="Silt">Silt</option>
-            <option value="Peaty">Peaty</option>
-            <option value="Loamy">Loamy</option>
-          </select>
-        </div>
+    <>
+      <Navbar />
+      <div className="max-w-4xl p-6 mx-auto mt-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+        <h2 className="mb-6 text-2xl font-bold text-center text-black">
+          භෝග නිර්දේශක සේවාව
+        </h2>
 
-        {/* Climate Dropdown */}
-    <div className="mb-4">
-      <label htmlFor="climate" className="block text-sm font-medium text-gray-700">
-        Climate
-      </label>
-      <select
-        id="climate"
-        name="climate"
-        value={formData.climate}
-        onChange={handleChange}
-        className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        required
-      >
-        <option value="">Select Climate</option>
-        <option value="Tropical">Tropical</option>
-        <option value="Subtropical">Subtropical</option>
-        <option value="Temperate">Temperate</option>
-        <option value="Arid">Arid</option>
-        <option value="Humid">Humid</option>
-      </select>
-    </div>
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 gap-6 md:grid-cols-2"
+        >
+          {/* Select location */}
+          <div>
+            <label
+              htmlFor="location"
+              className="block text-sm font-medium text-gray-700"
+            >
+              දිස්ත්‍රික්කය
+            </label>
+            <select
+              id="location"
+              name="location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            >
+              <option value="">තෝරන්න</option>
+              <option value="Ampara">අම්පාර</option>
+              <option value="Anuradhapura">අනුරාධපුර</option>
+              <option value="Badulla">බදුල්ල</option>
+              <option value="Batticaloa">මඩකලපුව</option>
+              <option value="Colombo">කොළඹ</option>
+              <option value="Galle">ගාල්ල</option>
+              <option value="Gampaha">ගම්පහ</option>
+              <option value="Hambantota">හම්බන්තොට</option>
+              <option value="Jaffna">යාපනය</option>
+              <option value="Kaluthara">කළුතර</option>
+              <option value="Kandy">මහනුවර</option>
+              <option value="Kegalle">කෑගල්ල</option>
+              <option value="Kilinochchi">කිලිනොච්චි</option>
+              <option value="Kurunegala">කුරුණෑගල</option>
+              <option value="Mannar">මන්නාරම</option>
+              <option value="Matale">මාතලේ</option>
+              <option value="Mathara">මාතර</option>
+              <option value="Monaragala">මොණරාගල</option>
+              <option value="Mullaithiv">මුලතිව්</option>
+              <option value="Nuwara-Eliya">නුවරඑළිය</option>
+              <option value="Polonnaruwa">පොළොන්නරුව</option>
+              <option value="Puttalam">පුත්තලම</option>
+              <option value="Rathnapura">රත්නපුර</option>
+              <option value="Trincomalee">ත්‍රිකුණාමලය</option>
+              <option value="Vavuniya">වවුනියාව</option>
+            </select>
+          </div>
 
-        {/* Area Input */}
-    <div className="mb-4">
-      <label htmlFor="area" className="block text-sm font-medium text-gray-700">
-        Area (in acres)
-      </label>
-      <input
-        type="number"
-        id="area"
-        name="area"
-        value={formData.area}
-        onChange={handleChange}
-        className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        required
-      />
-    </div>
+          {/* Select Planting Month */}
+          <div>
+            <label
+              htmlFor="planting_month"
+              className="block text-sm font-medium text-gray-700"
+            >
+              බෝගය සිටවුන මාසය
+            </label>
+            <select
+              id="planting_month"
+              name="planting_month"
+              value={plantingMonth}
+              onChange={(e) => setPlantingMonth(e.target.value)}
+              className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            >
+              <option value="">තෝරන්න</option>
+              <option value="January">ජනවාරි</option>
+              <option value="February">පෙබරවාරි</option>
+              <option value="March">මාර්තු</option>
+              <option value="April">අප්‍රේල්</option>
+              <option value="May">මැයි</option>
+              <option value="June">ජූනි</option>
+              <option value="July">ජූලි</option>
+              <option value="August">අගෝස්තු</option>
+              <option value="September">සැප්තැම්බර්</option>
+              <option value="October">ඔක්තෝබර්</option>
+              <option value="November">නොවැම්බර්</option>
+              <option value="December">දෙසැම්බර්</option>
+            </select>
+          </div>
 
-        {/* Water Availability Dropdown */}
-    <div className="mb-4">
-      <label htmlFor="water_availability" className="block text-sm font-medium text-gray-700">
-        Water Availability
-      </label>
-      <select
-        id="water_availability"
-        name="water_availability"
-        value={formData.water_availability}
-        onChange={handleChange}
-        className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        required
-      >
-        <option value="">Select Water Availability</option>
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
-      </select>
-    </div>
+          {/* Crop maturity time Input */}
+          <div>
+            <label
+              htmlFor="crop_maturity_time"
+              className="block text-sm font-medium text-gray-700"
+            >
+              බෝග පරිණත කාලය (මාස වලින්)
+            </label>
+            <input
+              type="number"
+              id="crop_maturity_time"
+              name="crop_maturity_time"
+              value={cropMaturityTime}
+              onChange={(e) => setMaturityTime(e.target.value)}
+              className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
 
-        {/* Previous Crops Input */}
-    <div className="mb-4">
-      <label htmlFor="previous_crops" className="block text-sm font-medium text-gray-700">
-        Previous Crops
-      </label>
-      <input
-        type="text"
-        id="previous_crops"
-        name="previous_crops"
-        value={formData.previous_crops}
-        onChange={handleChange}
-        className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-      />
-    </div>
+          {/* Financial capital Input */}
+          <div>
+            <label
+              htmlFor="financial_capital"
+              className="block text-sm font-medium text-gray-700"
+            >
+              මුල්‍ය ප්‍රාග්ධනය (රුපියල් වලින්)
+            </label>
+            <input
+              type="number"
+              id="financial_capital"
+              name="financial_capital"
+              value={financialCapital}
+              onChange={(e) => setFinancialCapital(e.target.value)}
+              className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
 
-    <button
-      type="submit"
-      className="col-span-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-    >
-      {loading ? 'Fetching Recommendation...' : 'Get Recommendation'}
-    </button>
-      </form>
+          {/* Area Input */}
+          <div>
+            <label
+              htmlFor="area"
+              className="block text-sm font-medium text-gray-700"
+            >
+              භූමි ප්‍රමාණය (අක්කර වලින්)
+            </label>
+            <input
+              type="number"
+              id="area"
+              name="area"
+              value={area}
+              onChange={(e) => setArea(e.target.value)}
+              className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
 
-      {recommendation && (
-    <div className="mt-6">
-      <h3 className="text-xl font-bold text-green-600">{recommendation}</h3>
-    </div>
-  )}
-    </div>
+          {/* Soil Type Dropdown */}
+          <div className="mb-4">
+            <label
+              htmlFor="soil_type"
+              className="block text-sm font-medium text-gray-700"
+            >
+              පාංශු වර්ගය
+            </label>
+            <select
+              id="soil_type"
+              name="soil_type"
+              value={soilType}
+              onChange={(e) => setSoilType(e.target.value)}
+              className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            >
+              <option value="">තෝරන්න</option>
+              <option value="Reddish Brown Earths">රතු-දුඹුරු පස</option>
+              <option value="Alluvial Soils">ගල්මඩ පස</option>
+              <option value="Gravelly Soils">කුලුගල් පස</option>
+              <option value="Red-Yellow Podzolic Soils">
+                රතු-කහ පොඩසොලික් පස
+              </option>
+              <option value="Lateritic Soils">ලාටරයිටික් පස</option>
+              <option value="Regosols">රෙගොසෝල් පස</option>
+              <option value="Non-Calcic Brown Soils">
+                කැල්සික් නොවන දුඹුරු පස
+              </option>
+              <option value="Bog and Half-Bog Soils">
+                දිය පස සහ අර්ධ-දිය පස
+              </option>
+              <option value="Red Loam Soils">රතු ලෝම් පස</option>
+            </select>
+          </div>
+
+          {/* Topography Input */}
+          <div className="mb-4">
+            <label
+              htmlFor="topography"
+              className="block text-sm font-medium text-gray-700"
+            >
+              භූ විෂමතාව
+            </label>
+            <select
+              id="topography"
+              name="topography"
+              value={topography}
+              onChange={(e) => setTopography(e.target.value)}
+              className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            >
+              <option value="">තෝරන්න</option>
+              <option value="Flat Lands">පැතලි ඉඩම</option>
+              <option value="Normal slope">බෑවුම් සහිත ඉඩම</option>
+              <option value="Hill slope">කඳු බෑවුම් සහිත ඉඩම</option>
+            </select>
+          </div>
+
+          {/* Water source Dropdown */}
+          <div className="mb-4">
+            <label
+              htmlFor="water_source"
+              className="block text-sm font-medium text-gray-700"
+            >
+              ජල මූලාශ්‍රය
+            </label>
+            <select
+              id="water_source"
+              name="water_source"
+              value={waterSource}
+              onChange={(e) => setWaterSource(e.target.value)}
+              className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            >
+              <option value="">තෝරන්න</option>
+              <option value="Nearby river">ආසන්න ගඟකින්</option>
+              <option value="From a water reservoir system">වැව් ජලය</option>
+              <option value="Rainwater">වැසි ජලය</option>
+              <option value="Groundwater">භූගත ජලය</option>
+              <option value="Tap water">නළ ජලය</option>
+            </select>
+          </div>
+
+          {/* Water Availability Dropdown */}
+          <div className="mb-4">
+            <label
+              htmlFor="water_availability"
+              className="block text-sm font-medium text-gray-700"
+            >
+              ජලය ලබා ගැනීමේ හැකියාව
+            </label>
+            <select
+              id="water_availability"
+              name="water_availability"
+              value={waterAvailability}
+              onChange={(e) => setWaterAvailability(e.target.value)}
+              className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            >
+              <option value="">තෝරන්න</option>
+              <option value="High">ඉහළ</option>
+              <option value="Moderate">මධ්‍යස්ථ</option>
+              <option value="Low">අඩු</option>
+            </select>
+          </div>
+
+          {/* Labor Input */}
+          <div>
+            <label
+              htmlFor="labor"
+              className="block text-sm font-medium text-gray-700"
+            >
+              ශ්‍රමය (පුද්ගල සංඛ්‍යාව)
+            </label>
+            <input
+              type="number"
+              id="labor"
+              name="labor"
+              value={labor}
+              onChange={(e) => setLabor(e.target.value)}
+              className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
+
+          {/* Objectives Input */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              අරමුණ
+            </label>
+            <div className="mt-2 space-y-2">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  value="Maximizing Profit"
+                  onChange={(e) => {
+                    setObjectives([...objectives, e.target.value]);
+                  }}
+                  className="text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                />
+                <span className="ml-2 text-gray-700">ලාභය ලබා ගන්න</span>
+              </label>
+
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  value="Sustainable Farming Practices"
+                  onChange={(e) => {
+                    setObjectives([...objectives, e.target.value]);
+                  }}
+                  className="text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                />
+                <span className="ml-2 text-gray-700">
+                  තිරසාර ගොවිතැන් පිළිවෙත්
+                </span>
+              </label>
+
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  value="Self-Sufficiency"
+                  onChange={(e) => {
+                    setObjectives([...objectives, e.target.value]);
+                  }}
+                  className="text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                />
+                <span className="ml-2 text-gray-700">ස්වයංපෝෂිතභාවය</span>
+              </label>
+
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  value="Maximizing Yield"
+                  onChange={(e) => {
+                    setObjectives([...objectives, e.target.value]);
+                  }}
+                  className="text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                />
+                <span className="ml-2 text-gray-700">අස්වනු උපරිම කිරීම</span>
+              </label>
+
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  value="Reducing Costs"
+                  onChange={(e) => {
+                    setObjectives([...objectives, e.target.value]);
+                  }}
+                  className="text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                />
+                <span className="ml-2 text-gray-700">වැය අඩු කිරීම</span>
+              </label>
+
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  value="Market Access"
+                  onChange={(e) => {
+                    setObjectives([...objectives, e.target.value]);
+                  }}
+                  className="text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                />
+                <span className="ml-2 text-gray-700">වෙළඳපොළ ප්‍රවේශය</span>
+              </label>
+
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  value="Improving Soil Health"
+                  onChange={(e) => {
+                    setObjectives([...objectives, e.target.value]);
+                  }}
+                  className="text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                />
+                <span className="ml-2 text-gray-700">
+                  පසෙහි ගුණාත්මකභාවය වැඩි දියුණු කිරීම
+                </span>
+              </label>
+
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  value="Adopting New Technologies"
+                  onChange={(e) => {
+                    setObjectives([...objectives, e.target.value]);
+                  }}
+                  className="text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                />
+                <span className="ml-2 text-gray-700">
+                  නව තාක්ෂණයන් භාවිතා කිරීම
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div className="md:col-span-2">
+            <button
+              type="submit"
+              className="w-full px-4 py-2 font-bold text-white bg-green-600 rounded-lg shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+              disabled={loading}
+            >
+              {loading ? "Fetching..." : "Get Crop Recommendations"}
+            </button>
+          </div>
+        </form>
+
+        {/* Display crop suggestions */}
+        {cropSuggestions && (
+          <div className="p-4 mt-8 bg-green-100 border border-green-300 rounded">
+            <h3 className="text-xl font-semibold text-black">
+              Suggested Crops:
+            </h3>
+            <p className="text-black">{cropSuggestions}</p>
+          </div>
+        )}
+
+        {error && <p className="mt-4 text-red-500">{error}</p>}
+      </div>
+    </>
   );
 };
 

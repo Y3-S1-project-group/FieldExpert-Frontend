@@ -7,10 +7,10 @@ const Navbar = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
 
   return (
-    <nav className="top-0 left-0 right-0 bg-white bg-opacity-100 border md:fixed">
+    <nav className="absolute top-0 left-0 right-0 bg-white bg-opacity-100 border md:fixed">
       <div className="container flex flex-wrap items-center justify-between px-4 py-2 mx-auto lg:py-4 md:px-10">
         {/* Logo */}
-        <Link className="flex items-center text-2xl font-bold text-black md:text-4xl">
+        <Link to="/" className="flex items-center text-2xl font-bold text-black md:text-4xl">
           <img src={logo} alt="logo" className="w-12 h-12 md:w-20 md:h-20" />
           <span className="ml-2">FieldExpert</span>
         </Link>
