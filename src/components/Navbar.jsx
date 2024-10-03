@@ -33,14 +33,10 @@ const Navbar = () => {
             </button>
           )}
         </div>
-
-        {/* Menu Links for Larger Screens */}
-        <div className={`w-full md:flex md:items-center md:w-auto ${navbarOpen ? "block" : "hidden"}`}>
-          <ul className="flex flex-col items-center mt-4 space-y-4 text-black md:space-y-0 md:mt-0 md:flex-row md:space-x-8">
-            <li><Link to="/services" className="hover:text-blue-500">සේවාවන්</Link></li>
-            <li>
-              <button className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-500">පිවිසෙන්න</button>
-            </li>
+        <div className="hidden menu md:block md:w-auto" id="navbar">
+          <ul className="flex text-black md:flex-wrap md:space-x-10 md:text-xl">
+          <li><Link to="/sales">සේවාවන්</Link></li>
+          <li><Link to="/allSale">විකුණුම්</Link></li>
           </ul>
         </div>
       </div>
