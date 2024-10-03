@@ -18,7 +18,7 @@ const Home = () => {
       description:
         "Our advanced crop disease technology will help you find the diseases in crops and suggest the best treatment.",
       buttonText: "රෝගය සොයන්න",
-      next:"/diseaseDetect",
+      next: "/diseaseDetect",
     },
     {
       imageSrc: "./farmer_manage.png",
@@ -30,17 +30,17 @@ const Home = () => {
     },
     {
       imageSrc: "./ferti_reco.png",
-      title: "පොහොර නිර්දේශක සේවාව",
+      title: "භෝග නිර්දේශක සේවාව",
       description:
-        "වගාව පිළිබද දත්ත සපයමින් ඊට යෝග්‍ය පොහොර පිළිබඳව දැනගන්න.",
+        "වගාබිම පිළිබද තොරතුරු සපයා ඊළඟට වගා කිරීමට සුදුසු භෝග පිළිබඳ උපදෙස් ලබාගන්න",
       buttonText: "නිර්දේශ සේවාව",
-      next: "/fertilizer",
+      next: "/cropRecommend",
     },
   ];
   return (
-    <div className="px-4 mx-auto">
+    <div className="px-4 mx-auto pt-30">
       <Navbar />
-      <div className="grid grid-cols-1 gap-8 mx-auto md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-8 mx-auto mt-8 md:mt-36 md:grid-cols-2 sm:px-4">
         {cardsData.map((card, index) => (
           <HomeCards
             key={index}
