@@ -1,3 +1,5 @@
+//PestDetection.jsx
+
 import { useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar"; // If you have a Navbar component, otherwise remove this line
@@ -5,6 +7,7 @@ import Navbar from "../components/Navbar"; // If you have a Navbar component, ot
 const PestDetection = () => {
   const [image, setImage] = useState(null); // Store the uploaded image
   const [result, setResult] = useState(null); // Store the classification result
+  const [history, setHistory] = useState([]); // Store the history of searches
 
   const handleImageUpload = (e) => {
     setImage(e.target.files[0]); // Save the uploaded image to state
@@ -38,7 +41,10 @@ const PestDetection = () => {
           },
         }
       );
-      setResult(response.data); // Save the classification result to state
+      const newResult = response.data;
+      setResult(newResult); // Save the classification result to state
+      // Add the new search to the history
+      setHistory([{ image: URL.createObjectURL(image), ...newResult }, ...history]);
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -51,7 +57,7 @@ const PestDetection = () => {
   return (
     <div>
       <Navbar />
-      <div className="p-6 mx-auto ml-10 bg-white border border-gray-300 rounded-lg shadow-lg">
+      <div className="p-6 mx-auto ml-10 bg-white border border-gray-300 rounded-lg shadow-lg ">
         <h2 className="text-black">පලිබෝධකයන් හදුනාගැනීම</h2>
         <p className="text-black">
           අපගේ පළිබෝධ හඳුනාගැනීමේ පද්ධතිය භාවිතයෙන් බෝග පළිබෝධ හඳුනා ගන්න. උන්
@@ -103,6 +109,39 @@ const PestDetection = () => {
             </button>
           </div>
         )}
+        {/* History Section */}
+        <div className="mt-10">
+          <h3 className="text-2xl font-bold text-black">Previous Searches</h3>
+          {history.length > 0 ? (
+            <div className="mt-4 space-y-4">
+              {history.map((item, index) => (
+                <div key={index} className="flex flex-row gap-4">
+                  <img
+                    src={item.image}
+                    alt={`Previous Upload ${index}`}
+                    width={100}
+                    height={100}
+                    className="border border-gray-300 rounded"
+                  />
+                  <div>
+                    <h4 className="text-xl font-bold text-black">{item.tagName}</h4>
+                    <p className="text-black">Probability: {item.probability.toFixed(2)}</p>
+                    {pesticideMethods[item.tagName] && (
+                      <div>
+                        <h5 className="text-lg font-bold text-black">Recommended Pesticide:</h5>
+                        <p className="text-black">
+                          {pesticideMethods[item.tagName]}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-black">No previous searches yet.</p>
+          )}
+        </div>
       </div>
     </div>
   );
