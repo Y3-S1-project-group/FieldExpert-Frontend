@@ -33,8 +33,8 @@ const Navbar = () => {
         </div>
         <div className="hidden menu md:block md:w-auto" id="navbar">
           <ul className="flex text-black md:flex-wrap md:space-x-10 md:text-xl">
-            <li>සේවාවන්</li>
-            <li><button>පිවිසෙන්න</button></li>
+          <li><Link to="/sales">සේවාවන්</Link></li>
+          <li><Link to="/allSale">විකුණුම්</Link></li>
           </ul>
         </div>
       </div>
