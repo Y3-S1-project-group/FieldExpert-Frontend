@@ -40,11 +40,11 @@ const Home = () => {
 
     {
       imageSrc: "./ferti_reco.png",
-      title: "කෘෂිකර්ම භූමිය",
+      title: "පොහොර නිර්දේශක",
       description:
         "ඔබ විසින් සිදුකරන ලද සියලුම විකුණුම් පිළිබඳ විස්තරය මෙතනින් ලබා ගන්න",
       buttonText: "නිර්දේශ සේවාව",
-      next: "/cultivatedLandAreaChart",
+      next: "/fertilizer",
     },
 
     {
