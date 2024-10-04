@@ -1,20 +1,24 @@
-// import React and useState from React
+// DiseaseDetection.jsx
+
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router
 import Navbar from "../components/Navbar";
 
 const DiseaseDetection = () => {
-  // State for search query
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate(); // Initialize the useNavigate hook
   
-  // List of crops
-  const crops = ['Potato', 'Cassava', 'Tomato', 'Rice', 'Sugarcane'];
+  const crops = ['අරතාපල්', 'මඤ්ඤොක්කා', 'තක්කාලි', 'සහල්', 'උක්'];
 
-  // Function to handle search input
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
-  // Filtered list based on search query
+  // Function to handle navigation based on crop button clicked
+  const handleButtonClick = (crop) => {
+    navigate(`/detect/${crop.toLowerCase()}`); // Navigate to the dynamic route with crop name
+  };
+
   const filteredCrops = crops.filter(crop =>
     crop.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -24,23 +28,22 @@ const DiseaseDetection = () => {
       <Navbar />
       <div className="flex items-center justify-center bg-gray-100">
         <div className="w-full max-w-2xl p-4 bg-white rounded shadow">
-          {/* Search bar */}
           <div className="mb-4">
             <input
               id="search"
               type="text"
               value={searchQuery}
               onChange={handleSearchChange}
-              placeholder="Search crops..."
+              placeholder="බෝගය සොයන්න..."
               className="w-full p-2 border border-gray-300 rounded"
             />
           </div>
 
-          {/* Divs for filtered crops */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
             {filteredCrops.map(crop => (
               <button
                 key={crop}
+                onClick={() => handleButtonClick(crop)} // Handle button click for navigation
                 className="p-4 text-black border border-gray-300 rounded shadow"
               >
                 {crop}
