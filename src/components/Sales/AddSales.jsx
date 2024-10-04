@@ -104,17 +104,27 @@ function AddSale() {
         }}>
             <form onSubmit={sendData} style={{ background: "white", padding: "20px", borderRadius: "10px", margin: "0 auto", maxWidth: "650px", boxShadow: "0 0 10px rgba(0, 0, 0, 0.4)", marginBottom: "15px", marginTop: "90px" }}>
                 <h1 style={{ fontSize: "36px", fontWeight: "bold", textAlign: "center", marginBottom: "20px" }}>විකුණුම් දත්ත ඇතුලුම්පත</h1>
+
                 <div style={{ display: "flex", gap: "20px", marginBottom: "15px" }}>
-                    <div style={{ flex: 1 }}>
-                        <label style={{ display: "block", marginBottom: "5px" }}>බෝග වර්ගය</label>
-                        <input 
-                            type="text" 
-                            value={cropType} 
-                            onChange={(e) => setCropType(e.target.value)} 
-                            required
-                            style={{ background: "#f1f1f1", border: "1px solid black", color: "black", width: "100%", height: "40px", borderRadius: "5px", padding: "5px" }} />
-                        {cropTypeError && <p style={{ color: "red" }}>{cropTypeError}</p>}
-                    </div>
+                <div style={{ flex: 1 }}>
+                    <label style={{ display: "block", marginBottom: "5px" }}>බෝග වර්ගය</label>
+                    <input 
+                        type="text" 
+                        value={cropType} 
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            const hasSymbols = /[^a-zA-Z\u0D80-\u0DFF ]/.test(value); // Allowing Sinhala characters, English letters, and spaces
+                            if (!hasSymbols) {
+                                setCropType(value);
+                                setCropTypeError("");
+                            } else {
+                                setCropTypeError("සංකේත ඇතුලත් කිරීමෙන් වළකින්න.");
+                            }
+                        }} 
+                        required
+                        style={{ background: "#f1f1f1", border: "1px solid black", color: "black", width: "100%", height: "40px", borderRadius: "5px", padding: "5px" }} 
+                    />{cropTypeError && <p style={{ color: "red" }}>{cropTypeError}</p>}
+                </div>
 
                     <div style={{ flex: 1 }}>
                         <label style={{ display: "block", marginBottom: "5px" }}>විකුණුම් දවස</label>
