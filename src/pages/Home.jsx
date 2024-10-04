@@ -36,6 +36,22 @@ const Home = () => {
       buttonText: "නිර්දේශ සේවාව",
       next: "/cropRecommend",
     },
+    {
+      imageSrc: "./cropsell.png",
+      title: "විකුණුම් දත්ත ඇතුලුම්පත",
+      description:
+        "ඔබ විසින් සිදුකරන විකුණුම් පිළිබඳව තොරතුරු ඇතුලත් කරන්න",
+      buttonText: "නිර්දේශ සේවාව",
+      next: "/sales",
+    },
+    {
+      imageSrc: "./report.png",
+      title: "විකුණුම්",
+      description:
+        "ඔබ විසින් සිදුකරන ලද සියලුම විකුණුම් පිළිබඳ විස්තරය මෙතනින් ලබා ගන්න",
+      buttonText: "නිර්දේශ සේවාව",
+      next: "/allSale",
+    },
   ];
   return (
     <div className="px-4 mx-auto pt-30">

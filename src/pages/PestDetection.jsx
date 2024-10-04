@@ -57,7 +57,7 @@ const PestDetection = () => {
   return (
     <div>
       <Navbar />
-      <div className="p-6 mx-auto mt-40 ml-10 bg-white border border-gray-300 rounded-lg shadow-lg">
+      <div className="max-w-3xl p-6 mx-auto mt-40 bg-white border border-gray-300 rounded-lg shadow-lg">
         <h2 className="text-black">පලිබෝධකයන් හදුනාගැනීම</h2>
         <p className="text-black">
           අපගේ පළිබෝධ හඳුනාගැනීමේ පද්ධතිය භාවිතයෙන් බෝග පළිබෝධ හඳුනා ගන්න. උන්
