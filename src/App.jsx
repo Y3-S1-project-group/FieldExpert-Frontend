@@ -5,6 +5,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // Importing page routes
 import Home from './pages/Home';
 import PestDetection from './pages/PestDetection';
+import Fertilizer from './pages/Fertilizer';
+import CultivatedLandAreaChart from './pages/CultivatedLandAreaChart';
+
+
+
+
 import CropRecommendation from './pages/CropRecommendation';
 import DiseaseDetection from './pages/DiseaseDetection';
 
@@ -29,6 +35,8 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/pestDetect' element={<PestDetection />} />
+          <Route path='/fertilizer' element={<Fertilizer />} />
+          <Route path='/cultivatedLandAreaChart' element={<CultivatedLandAreaChart />} />
           <Route path='/cropRecommend' element={<CropRecommendation />} />
           <Route path='/diseaseDetect' element={<DiseaseDetection />} />
 
@@ -47,6 +55,10 @@ function App() {
           <Route path="/detect/:cropName" element={<DiseaseDetectionComponent />} />
 
         </Routes>
+
+        
+
+        
       </main>
     </Router>
   );

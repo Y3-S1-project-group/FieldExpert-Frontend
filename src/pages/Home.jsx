@@ -28,29 +28,32 @@ const Home = () => {
       buttonText: "තොරතුරු සැපයීම",
       next: "/farmManagement",
     },
+    
     {
       imageSrc: "./ferti_reco.png",
-      title: "භෝග නිර්දේශක සේවාව",
-      description:
-        "වගාබිම පිළිබද තොරතුරු සපයා ඊළඟට වගා කිරීමට සුදුසු භෝග පිළිබඳ උපදෙස් ලබාගන්න",
-      buttonText: "නිර්දේශ සේවාව",
-      next: "/cropRecommend",
-    },
-    {
-      imageSrc: "./cropsell.png",
-      title: "විකුණුම් දත්ත ඇතුලුම්පත",
-      description:
-        "ඔබ විසින් සිදුකරන විකුණුම් පිළිබඳව තොරතුරු ඇතුලත් කරන්න",
-      buttonText: "නිර්දේශ සේවාව",
-      next: "/sales",
-    },
-    {
-      imageSrc: "./report.png",
-      title: "විකුණුම්",
+      title: "පොහොර නිර්දේශක සේවාව",
       description:
         "ඔබ විසින් සිදුකරන ලද සියලුම විකුණුම් පිළිබඳ විස්තරය මෙතනින් ලබා ගන්න",
       buttonText: "නිර්දේශ සේවාව",
       next: "/allSale",
+    },
+
+    {
+      imageSrc: "./ferti_reco.png",
+      title: "පොහොර නිර්දේශක",
+      description:
+        "ඔබ විසින් සිදුකරන ලද සියලුම විකුණුම් පිළිබඳ විස්තරය මෙතනින් ලබා ගන්න",
+      buttonText: "නිර්දේශ සේවාව",
+      next: "/fertilizer",
+    },
+
+    {
+      imageSrc: "./ferti_reco.png",
+      title: "කෘෂිකර්ම භූමිය",
+      description:
+        "වගාව පිළිබද දත්ත සපයමින් ඊට යෝග්‍ය පොහොර පිළිබඳව දැනගන්න.",
+      buttonText: "නිර්දේශ සේවාව",
+      next: "/cultivatedLandAreaChart",
     },
   ];
   return (
