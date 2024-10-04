@@ -118,7 +118,7 @@ function AddSale() {
                                 setCropType(value);
                                 setCropTypeError("");
                             } else {
-                                setCropTypeError("සංකේත ඇතුලත් කිරීමෙන් වළකින්න.");
+                                setCropTypeError("සංකේත ඇතුලත් කිරීමෙන් වළකින්න..");
                             }
                         }} 
                         required
