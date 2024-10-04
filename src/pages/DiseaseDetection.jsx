@@ -1,15 +1,38 @@
-//DiseaseDetection.jsx
-
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router
 import Navbar from "../components/Navbar";
 
 const DiseaseDetection = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate(); // Initialize the useNavigate hook
   
-  const crops = ['අරතාපල්', 'මඤ්ඤොක්කා', 'තක්කාලි', 'සහල්', 'උක්'];
+  const crops = ['Potato', 'Cassava', 'Tomato', 'Rice', 'Sugarcane'];
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
+  };
+
+  // Function to handle navigation based on crop button clicked
+  const handleButtonClick = (crop) => {
+    switch (crop) {
+      case 'Potato':
+        navigate('/potato'); // Redirect to the Potato detection page
+        break;
+      case 'Cassava':
+        navigate('/cassava'); // Redirect to the Cassava detection page
+        break;
+      case 'Tomato':
+        navigate('/tomato'); // Redirect to the Tomato detection page
+        break;
+      case 'Rice':
+        navigate('/rice'); // Redirect to the Rice detection page
+        break;
+      case 'Sugarcane':
+        navigate('/sugarcane'); // Redirect to the Sugarcane detection page
+        break;
+      default:
+        break;
+    }
   };
 
   const filteredCrops = crops.filter(crop =>
@@ -27,7 +50,7 @@ const DiseaseDetection = () => {
               type="text"
               value={searchQuery}
               onChange={handleSearchChange}
-              placeholder="බෝගය සොයන්න..."
+              placeholder="Search crop..."
               className="w-full p-2 border border-gray-300 rounded"
             />
           </div>
@@ -36,6 +59,7 @@ const DiseaseDetection = () => {
             {filteredCrops.map(crop => (
               <button
                 key={crop}
+                onClick={() => handleButtonClick(crop)} // Handle button click for navigation
                 className="p-4 text-black border border-gray-300 rounded shadow"
               >
                 {crop}
