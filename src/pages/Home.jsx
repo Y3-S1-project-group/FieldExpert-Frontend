@@ -28,13 +28,23 @@ const Home = () => {
       buttonText: "තොරතුරු සැපයීම",
       next: "/farmManagement",
     },
+    
     {
       imageSrc: "./ferti_reco.png",
-      title: " නිර්දේශක සේවාව",
+      title: "පොහොර නිවේදනය",
       description:
         "වගාව පිළිබද දත්ත සපයමින් ඊට යෝග්‍ය පොහොර පිළිබඳව දැනගන්න.",
       buttonText: "නිර්දේශ සේවාව",
       next: "/fertilizer",
+    },
+
+    {
+      imageSrc: "./ferti_reco.png",
+      title: "කෘෂිකර්ම භූමිය",
+      description:
+        "වගාව පිළිබද දත්ත සපයමින් ඊට යෝග්‍ය පොහොර පිළිබඳව දැනගන්න.",
+      buttonText: "නිර්දේශ සේවාව",
+      next: "/cultivatedLandAreaChart",
     },
   ];
   return (
