@@ -1,14 +1,18 @@
+// src/components/PlantDiseases/DiseaseDetectionComponent.jsx
+
 import { useState } from 'react';
 import axios from 'axios';
 import Navbar from '../Navbar';
+import { useParams } from 'react-router-dom';
 
-const TomatoDetection = () => {
-  const [selectedImage, setSelectedImage] = useState(null); // Store the uploaded image
-  const [result, setResult] = useState(null); // Store the classification result
-  const [history, setHistory] = useState([]); // Store the history of searches
+const DiseaseDetectionComponent = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [result, setResult] = useState(null);
+  const [history, setHistory] = useState([]);
+  const { cropName } = useParams(); // Get crop name from URL params
 
   const handleImageChange = (e) => {
-    setSelectedImage(e.target.files[0]); // Save the selected image to state
+    setSelectedImage(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
@@ -19,7 +23,7 @@ const TomatoDetection = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/diseaseDetect/classifyDisease/Tomato',
+        `http://localhost:5000/diseaseDetect/classifyDisease/${cropName}`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -27,12 +31,8 @@ const TomatoDetection = () => {
       );
 
       const newResult = response.data;
-      setResult(newResult); // Save the classification result
-      // Add the new search to the history
-      setHistory([
-        { image: URL.createObjectURL(selectedImage), ...newResult },
-        ...history,
-      ]);
+      setResult(newResult);
+      setHistory([{ image: URL.createObjectURL(selectedImage), ...newResult }, ...history]);
     } catch (error) {
       console.error('Error uploading image:', error);
     }
@@ -42,9 +42,9 @@ const TomatoDetection = () => {
     <div>
       <Navbar />
       <div className="max-w-md p-6 mx-auto mt-40 bg-white border border-gray-300 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-black">Tomato Disease Detection</h2>
+        <h2 className="text-2xl font-bold text-black">{cropName} රෝග හඳුනාගැනීම</h2>
         <p className="mb-4 text-black">
-          Upload an image of your tomato plant to detect potential diseases.
+        රෝගී {cropName.toLowerCase()} බෝගයේ කොටසක ඡායාරූපයක් උඩුගත කිරීම මඟින් රෝගය හඳුනාගන්න.
         </p>
         <form onSubmit={handleSubmit} className="flex items-center space-x-2">
           <input
@@ -56,14 +56,13 @@ const TomatoDetection = () => {
             type="submit"
             className="px-4 py-2 text-white bg-green-600 rounded-lg shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
           >
-            Detect Disease
+            රෝගය හඳුනාගන්න
           </button>
         </form>
 
-        {/* Display the uploaded image */}
         {selectedImage && (
           <div className="mt-5">
-            <h3 className="text-xl font-bold text-black">Uploaded Image:</h3>
+            <h3 className="text-xl font-bold text-black">රූපය:</h3>
             <img
               src={URL.createObjectURL(selectedImage)}
               alt="Uploaded Image"
@@ -76,17 +75,15 @@ const TomatoDetection = () => {
 
         {result && (
           <div className="mt-5">
-            {/* Display the classification result */}
-            <h3 className="text-xl font-bold text-black">Detection Result:</h3>
+            <h3 className="text-xl font-bold text-black">ප්‍රතිඵලය:</h3>
             <p className="text-black">
               {result.tagName}: {(result.probability * 100).toFixed(2)}%
             </p>
           </div>
         )}
 
-        {/* History Section */}
         <div className="mt-10">
-          <h3 className="text-2xl font-bold text-black">Previous Searches</h3>
+          <h3 className="text-2xl font-bold text-black">කලින් කරන ලද සෙවීම්</h3>
           {history.length > 0 ? (
             <div className="mt-4 space-y-4">
               {history.map((item, index) => (
@@ -101,14 +98,14 @@ const TomatoDetection = () => {
                   <div>
                     <h4 className="text-xl font-bold text-black">{item.tagName}</h4>
                     <p className="text-black">
-                      Probability: {(item.probability * 100).toFixed(2)}%
+                    සම්භාවිතාව: {(item.probability * 100).toFixed(2)}%
                     </p>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-black">No previous searches yet.</p>
+            <p className="text-black">කලින් කරන ලද සෙවීම් නොමැත.</p>
           )}
         </div>
       </div>
@@ -116,4 +113,4 @@ const TomatoDetection = () => {
   );
 };
 
-export default TomatoDetection;
+export default DiseaseDetectionComponent;
