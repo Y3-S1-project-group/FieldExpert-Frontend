@@ -8,6 +8,11 @@ import PestDetection from './pages/PestDetection';
 import CropRecommendation from './pages/CropRecommendation';
 import DiseaseDetection from './pages/DiseaseDetection';
 
+// Sales
+import SalesAdd from './pages/Sales/SalesAdd';
+import SalesAll from './pages/Sales/SalesAll';
+
+
 // Importing components
 import DiseaseDetectionComponent from './components/PlantDiseases/DiseaseDetectionComponent';
 
@@ -26,6 +31,11 @@ function App() {
           <Route path='/pestDetect' element={<PestDetection />} />
           <Route path='/cropRecommend' element={<CropRecommendation />} />
           <Route path='/diseaseDetect' element={<DiseaseDetection />} />
+
+          {/* Sales */}
+          <Route path='/sales' element={<SalesAdd />} />
+          <Route path='/allSale' element={<SalesAll />} />
+
           
           {/* <Route path='/potato' element={<PotatoDetection />} />
           <Route path='/cassava' element={<CassavaDetection />} />
