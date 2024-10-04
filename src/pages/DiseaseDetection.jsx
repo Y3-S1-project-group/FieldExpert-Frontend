@@ -26,8 +26,7 @@ const DiseaseDetection = () => {
   return (
     <>
       <Navbar />
-      <div className="flex items-center justify-center bg-gray-100">
-        <div className="w-full max-w-2xl p-4 bg-white rounded shadow">
+      <div className="w-full max-w-2xl p-4 mx-auto mt-40 bg-white rounded shadow ">
           <div className="mb-4">
             <input
               id="search"
@@ -51,7 +50,6 @@ const DiseaseDetection = () => {
             ))}
           </div>
         </div>
-      </div>
     </>
   );
 };

@@ -4,9 +4,12 @@ import { useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 
+
 const CropRecommendation = () => {
 
-  const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+  
+  // const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+  const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
   
   const [location, setLocation] = useState("");
   const [plantingMonth, setPlantingMonth] = useState("");
