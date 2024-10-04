@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import axios from "axios";
+import parse from "html-react-parser";
 import Navbar from "../components/Navbar";
 
 
@@ -54,7 +55,7 @@ const CropRecommendation = () => {
         {
           role: "system",
           content:
-            "You are a Sri Lankan agricultural expert providing crop suggestions based on farmland conditions.",
+            "You are a Sri Lankan agricultural expert providing crop suggestions based on farmland conditions. Answer should be embedded in HTML tags inside a <div>. Bold the crop names. Don't use asterixs, use only HTML tags. Give reasons for every crop.",
         },
         {
           role: "user",
@@ -67,7 +68,7 @@ const CropRecommendation = () => {
         {
           model: "gpt-3.5-turbo",
           messages: messages,
-          max_tokens: 500,
+          max_tokens: 1000,
           temperature: 0.7,
         },
         {
@@ -78,7 +79,9 @@ const CropRecommendation = () => {
         }
       );
 
-      setCropSuggestions(response.data.choices[0].message.content);
+      console.log(response.data);
+
+      setCropSuggestions(parse(response.data.choices[0].message.content));
     } catch (error) {
       console.error("Error fetching crop recommendation:", error);
       setError("Failed to fetch crop recommendation. Please try again.");
