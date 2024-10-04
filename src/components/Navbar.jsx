@@ -20,15 +20,13 @@ const Navbar = () => {
           {!navbarOpen ? (
             <button
               onClick={() => setNavbarOpen(true)}
-              className="flex items-center px-3 py-2 text-slate-500 hover:text-black focus:outline-none"
-            >
+              className="flex items-center px-3 py-2 text-slate-500 hover:text-black focus:outline-none">
               <Bars3Icon className="w-6 h-6" />
             </button>
           ) : (
             <button
               onClick={() => setNavbarOpen(false)}
-              className="flex items-center px-3 py-2 text-slate-500 hover:text-black focus:outline-none"
-            >
+              className="flex items-center px-3 py-2 text-slate-500 hover:text-black focus:outline-none">
               <XMarkIcon className="w-6 h-6" />
             </button>
           )}
