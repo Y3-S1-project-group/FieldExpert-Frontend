@@ -1,0 +1,57 @@
+/* display.css */
+
+/* .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+} */
+
+h2 {
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+h1 {
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  font-size: 16px;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #4bec4b;
+}
+td.data{
+  font-size: 11px;
+}
+
+button.btn {
+  padding: 8px 16px;
+  background-color: #0a6f0d;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button.btn:hover {
+  background-color: #4bec4b;
+}
+.bg-customGreen {
+  background-color: #0a6f0d;
+}
+
+.bg-customGreen:hover {
+  background-color: #23B103; /* Optional hover color */
+}
+::placeholder{
+  font-size: 11px;
+}
