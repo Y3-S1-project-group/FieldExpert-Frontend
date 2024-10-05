@@ -60,6 +60,22 @@ const Home = () => {
       buttonText: "නිර්දේශ සේවාව",
       next: "/cultivatedLandAreaChart",
     },
+    {
+      imageSrc: "./ferti_reco.png",
+      title: "කෘෂිකාර්මික අයිතම සේවාව",
+      description:
+        "වගාබිම පිළිබද තොරතුරු සපයා ඊළඟට වගා කිරීමට සුදුසු භෝග පිළිබඳ උපදෙස් ලබාගන්න",
+      buttonText: "නිර්දේශ සේවාව",
+      next: "/inventories",
+    },
+    {
+      imageSrc: "./ferti_reco.png",
+      title: "කෘෂිකාර්මික අයිතම සේවාව යාවත්කාලීන කිරීම",
+      description:
+        "වගාබිම පිළිබද තොරතුරු සපයා ඊළඟට වගා කිරීමට සුදුසු භෝග පිළිබඳ උපදෙස් ලබාගන්න",
+      buttonText: "නිර්දේශ සේවාව",
+      next: "/adminInventories",
+    },
   ];
   return (
     <div className="px-4 mx-auto pt-30">
