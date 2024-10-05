@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import parse from "html-react-parser";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer/Footer";
 
 
 const CropRecommendation = () => {
@@ -494,6 +495,7 @@ const CropRecommendation = () => {
 
         {error && <p className="mt-4 text-red-500">{error}</p>}
       </div>
+      <Footer />
     </>
   );
 };

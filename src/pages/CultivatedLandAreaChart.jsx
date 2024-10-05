@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import Navbar from "../components/Navbar";
-import './Fertilizer.css';
+// import './Fertilizer.css';
 import html2pdf from 'html2pdf.js';
 import logo from '../assets/logo.png';
+import Footer from '../components/Footer/Footer';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -191,7 +192,7 @@ const CultivatedLandAreaChart = () => {
 
 
     if (error) {
-        return <div className="text-red-600 font-bold p-4 bg-red-100 rounded-lg">{error}</div>;
+        return <div className="p-4 font-bold text-red-600 bg-red-100 rounded-lg">{error}</div>;
     }
 
     return (
@@ -201,31 +202,31 @@ const CultivatedLandAreaChart = () => {
         
         <div className="h-screen bg-gradient-to-br from-green-50 to-blue-50">
             
-            <div className="container mx-auto px-64 py-40">
-                <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">ප්‍රදේශ වල කෘෂිකර්ම භූමිය</h1>
-                <div className="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4">
+            <div className="container px-64 py-40 mx-auto">
+                <h1 className="mb-8 text-4xl font-bold text-center text-gray-800">ප්‍රදේශ අනුව වගා ව්‍යාප්තිය</h1>
+                <div className="flex flex-col items-center justify-between mb-6 space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
                     <input
                         type="text"
-                        placeholder="Search city"
+                        placeholder="නගර අනුව සොයන්න"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-800 placeholder-gray-500 w-full sm:w-64"
+                        className="w-full px-4 py-2 text-gray-800 placeholder-gray-500 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 sm:w-64"
                     />
                     <button
                         onClick={generatePDF}
-                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out flex items-center justify-center"
+                        className="flex items-center justify-center px-4 py-2 font-bold text-white transition duration-300 ease-in-out bg-blue-500 rounded hover:bg-blue-600"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clipRule="evenodd" />
                         </svg>
                         Generate PDF Report
                     </button>
                 </div>
                 {filteredCityData.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {filteredCityData.map(([normalizedCity, { displayName, crops }]) => (
-                            <div key={normalizedCity} className="bg-white shadow-lg rounded-lg overflow-hidden">
-                                <div className="bg-green-500 text-white p-4">
+                            <div key={normalizedCity} className="overflow-hidden bg-white rounded-lg shadow-lg">
+                                <div className="p-4 text-white bg-green-500">
                                     <h3 className="text-xl font-semibold">{displayName}</h3>
                                 </div>
                                 <div className="p-4">
@@ -251,18 +252,18 @@ const CultivatedLandAreaChart = () => {
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center text-gray-600 mt-8 p-4 bg-gray-100 rounded-lg">No data available.</div>
+                    <div className="p-4 mt-8 text-center text-gray-600 bg-gray-100 rounded-lg">No data available.</div>
                 )}
                 
             </div>  
-            <div className="fixed bottom-80 right-32 bg-white shadow-lg p-8 rounded-lg max-w-md w-100">
-        <h1 className="text-xl font-bold mb-2 text-gray-800">මෙමගින් !</h1>
+            <div className="fixed max-w-md p-8 bg-white rounded-lg shadow-lg bottom-80 right-32 w-100">
+        <h1 className="mb-2 text-xl font-bold text-gray-800">මෙමගින් !</h1>
                 <h3 className="text-xl text-gray-700">
                     ඔබගේ වගාව සඳහා හොඳම පොහොර නිර්දේශ ලබා ගැනීමට, විශේෂිත පොහොර වර්ගයන් සහ යෙදීමේ උපදෙස් සපයයි. වගාව, භූමි ප්‍රදේශය, සහ පොහොර ප්‍රමාණය අනුව නිවැරදි පොහොර ක්‍රමවේදයන් පිළිබඳව තොරතුරු ලබා දේ.
                 </h3>
             </div>
         </div>
-        
+        <Footer />
       </div>
     
     );

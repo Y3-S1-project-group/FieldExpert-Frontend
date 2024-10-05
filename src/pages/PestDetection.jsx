@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar"; // If you have a Navbar component, otherwise remove this line
+import Footer from "../components/Footer/Footer";
 
 const PestDetection = () => {
   const [image, setImage] = useState(null); // Store the uploaded image
@@ -143,6 +144,7 @@ const PestDetection = () => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
