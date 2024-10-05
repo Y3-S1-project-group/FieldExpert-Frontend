@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import swal from "sweetalert";
 import axios from "axios";
+import "../../Styles/display.css";
+
 
 const DeleteInventory = ({ itemId }) => {
   const [showModal, setShowModal] = useState(false);
@@ -56,9 +58,9 @@ const DeleteInventory = ({ itemId }) => {
             <div className="absolute inset-0 bg-gray-900 opacity-50"></div>
           </div>
           <div className="relative bg-white p-8 rounded-lg shadow-xl max-w-xl w-full">
-            <h2 className="text-lg font-semibold mb-4">
+            <h3><b>
             ඔබට මෙම කෘෂිකාර්මික අයිතමය මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?
-            </h2>
+            </b></h3>
             <div className="flex justify-end">
               <button
                 className="bg-customGray text-white py-2 px-4 rounded-lg hover:bg-customGray2 focus:outline-none focus:ring focus:ring-blue-200 mr-4"
