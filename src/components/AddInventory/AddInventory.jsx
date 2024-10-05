@@ -110,7 +110,7 @@ const AddInventory = () => {
 
     if (validateForm()) {
       axios
-        .post("http://localhost:5001/api/inventory/addInventory", inventoryData)
+        .post("http://localhost:5000/api/inventory/addInventory", inventoryData)
         .then(function (response) {
           console.log(response.data);
 

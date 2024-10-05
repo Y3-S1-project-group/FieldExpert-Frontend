@@ -8,7 +8,7 @@ function CustomDisplayInventory() {
     // Fetch all inventory items from the backend
     useEffect(() => {
         axios
-          .get("http://localhost:5001/api/inventory/getAllInventory")
+          .get("http://localhost:5000/api/inventory/getAllInventory")
           .then((res) => {
             setInventoryItems(res.data); // Set the fetched inventory items in the state
           })
@@ -26,7 +26,7 @@ function CustomDisplayInventory() {
         return;
       }
       axios
-        .get(`http://localhost:5001/api/inventory/searchInventory?search=${search}`)
+        .get(`http://localhost:5000/api/inventory/searchInventory?search=${search}`)
         .then((res) => {
           setInventoryItems(res.data); // Update state with search results
         })
@@ -37,7 +37,7 @@ function CustomDisplayInventory() {
 
     return (
       <div>
-        <h2>
+        <h2 className="custom-header">
           <center>කෘෂිකාර්මික අයිතම</center>
         </h2>
 

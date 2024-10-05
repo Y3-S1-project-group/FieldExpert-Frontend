@@ -15,7 +15,7 @@ const DeleteInventory = ({ itemId }) => {
 
   const handleDelete = () => {
     axios
-      .delete(`http://localhost:5001/api/inventory/deleteInventory/${itemId}`)
+      .delete(`http://localhost:5000/api/inventory/deleteInventory/${itemId}`)
       .then((response) => {
         console.log(response.data);
         swal({

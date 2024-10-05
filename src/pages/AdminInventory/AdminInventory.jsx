@@ -10,6 +10,7 @@ const AdminInventory = () => {
       
 
       <div className="ml-2 mt-8 px-2">
+        
         <InventoryReport />
         <AddInventory />
 

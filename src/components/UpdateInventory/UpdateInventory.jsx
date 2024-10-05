@@ -87,7 +87,7 @@ const UpdateInventory = ({ itemId }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5001/api/inventory/getInventory/${itemId}`)
+      .get(`http://localhost:5000/api/inventory/getInventory/${itemId}`)
       .then((res) => {
         const item = res.data;
         setItemID(item.ItemID);
@@ -125,7 +125,7 @@ const UpdateInventory = ({ itemId }) => {
     if (validateForm()) {
       axios
         .put(
-          `http://localhost:5001/api/inventory/updateInventory/${itemId}`,
+          `http://localhost:5000/api/inventory/updateInventory/${itemId}`,
           inventoryData
         )
         .then((response) => {

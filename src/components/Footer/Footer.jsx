@@ -7,9 +7,9 @@ const Footer = () => {
       <footer className="footer">
         <div className="footer-container">
           <div className="footer-info">
-            <h3>Agri Optimizer</h3>
+            <h3>Field Expert</h3>
             <p>SLIIT Malabe Campus, New Kandy Rd, Malabe</p>
-            <p>Email: info@Agri_Optimizer.com</p>
+            <p>Email: info@Field_Expert.com</p>
             <p>Phone: +94 75 494 7189</p>
           </div>
           <div className="footer-social">
