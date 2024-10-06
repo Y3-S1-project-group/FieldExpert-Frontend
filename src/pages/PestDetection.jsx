@@ -1,5 +1,3 @@
-//PestDetection.jsx
-
 import { useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar"; // If you have a Navbar component, otherwise remove this line
@@ -9,9 +7,11 @@ const PestDetection = () => {
   const [image, setImage] = useState(null); // Store the uploaded image
   const [result, setResult] = useState(null); // Store the classification result
   const [history, setHistory] = useState([]); // Store the history of searches
+  const [errorMessage, setErrorMessage] = useState(""); // Error message state
 
   const handleImageUpload = (e) => {
     setImage(e.target.files[0]); // Save the uploaded image to state
+    setErrorMessage(""); // Clear error when image is selected
   };
 
   const pesticideMethods = {
@@ -29,6 +29,13 @@ const PestDetection = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if an image is selected
+    if (!image) {
+      setErrorMessage("කරුණාකර රූපයක් උඩුගත කරන්න.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("image", image);
 
@@ -56,7 +63,7 @@ const PestDetection = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg">
       <Navbar />
       <div className="max-w-3xl p-6 mx-auto mt-40 bg-white border border-gray-300 rounded-lg shadow-lg">
         <h2 className="text-black">පලිබෝධකයන් හදුනාගැනීම</h2>
@@ -76,6 +83,9 @@ const PestDetection = () => {
           >
             හඳුනාගැනීමට උඩුගත කරන්න
           </button>
+          {errorMessage && (
+            <p className="text-red-500">{errorMessage}</p>
+          )}
         </form>
         {result && (
           <div className="flex flex-row gap-10 mt-5">
@@ -88,14 +98,15 @@ const PestDetection = () => {
             />
             {/* Display the classification result next to the image */}
             <div>
-              <h3 className="text-2xl font-bold text-black">Classification Result:</h3>
+              <h3 className="text-2xl font-bold text-black">ප්‍රතිඵලය:</h3>
               <p className="text-black">
                 {result.tagName}: {result.probability.toFixed(2)}
               </p>
               {/* Display the recommended pesticide */}
+              <br />
               {pesticideMethods[result.tagName] && (
                 <div>
-                  <h3 className="text-2xl font-bold text-black">Recommended Pesticide:</h3>
+                  <h3 className="text-2xl font-bold text-black">නිර්දේශිත පළිබෝධනාශක:</h3>
                   <p className="text-black">
                     {pesticideMethods[result.tagName]}
                   </p>
@@ -112,7 +123,7 @@ const PestDetection = () => {
         )}
         {/* History Section */}
         <div className="mt-10">
-          <h3 className="text-2xl font-bold text-black">Previous Searches</h3>
+          <h3 className="text-2xl font-bold text-black">කලින් කරන ලද සෙවීම්</h3>
           {history.length > 0 ? (
             <div className="mt-4 space-y-4">
               {history.map((item, index) => (
@@ -126,10 +137,10 @@ const PestDetection = () => {
                   />
                   <div>
                     <h4 className="text-xl font-bold text-black">{item.tagName}</h4>
-                    <p className="text-black">Probability: {item.probability.toFixed(2)}</p>
+                    <p className="text-black">සම්භාවිතාව: {item.probability.toFixed(2)}</p>
                     {pesticideMethods[item.tagName] && (
                       <div>
-                        <h5 className="text-lg font-bold text-black">Recommended Pesticide:</h5>
+                        <h5 className="text-lg font-bold text-black">නිර්දේශිත පළිබෝධනාශක:</h5>
                         <p className="text-black">
                           {pesticideMethods[item.tagName]}
                         </p>
@@ -140,7 +151,7 @@ const PestDetection = () => {
               ))}
             </div>
           ) : (
-            <p className="text-black">No previous searches yet.</p>
+            <p className="text-black">කලින් කරන ලද සෙවීම් නොමැත.</p>
           )}
         </div>
       </div>

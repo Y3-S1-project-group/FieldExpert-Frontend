@@ -4,19 +4,27 @@ import { useState } from "react";
 import axios from "axios";
 import Navbar from "../Navbar";
 import { useParams } from "react-router-dom";
+import Footer from "../Footer/Footer";
 
 const DiseaseDetectionComponent = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [result, setResult] = useState(null);
   const [history, setHistory] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(""); // Error message state
   const { cropName } = useParams(); // Get crop name from URL params
 
   const handleImageChange = (e) => {
     setSelectedImage(e.target.files[0]);
+    setErrorMessage(""); // Clear error message when image is selected
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!selectedImage) {
+      setErrorMessage("කරුණාකර රූපයක් උඩුගත කරන්න."); // Error message if no image
+      return;
+    }
 
     const formData = new FormData();
     formData.append("image", selectedImage);
@@ -60,6 +68,9 @@ const DiseaseDetectionComponent = () => {
               className="p-2 text-gray-700 bg-white border border-gray-300 rounded file:border file:border-gray-300 file:rounded file:bg-gray-100 file:text-gray-800 hover:file:bg-gray-200"
             />
           </div>
+          {errorMessage && (
+            <p className="text-red-500">{errorMessage}</p> // Display error message
+          )}
           <div>
             <button
               type="submit"
@@ -121,6 +132,7 @@ const DiseaseDetectionComponent = () => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

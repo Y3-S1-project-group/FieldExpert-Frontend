@@ -478,7 +478,7 @@ const CropRecommendation = () => {
               className="w-full px-4 py-2 font-bold text-white bg-green-600 rounded-lg shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
               disabled={loading}
             >
-              {loading ? "Fetching..." : "Get Crop Recommendations"}
+              {loading ? "නිර්දේශ ලබාගනිමින්..." : "නිර්දේශ ලබාගන්න"}
             </button>
           </div>
         </form>
