@@ -1,6 +1,7 @@
 // import React from 'react'
 import Navbar from "../components/Navbar";
 import HomeCards from "../components/HomeCards";
+import Footer from "../components/Footer/Footer";
 
 const Home = () => {
   const cardsData = [
@@ -29,22 +30,6 @@ const Home = () => {
       next: "/cropRecommend",
     },
     {
-      imageSrc: "./cropsell.png",
-      title: "විකුණුම් දත්ත ඇතුලුම්පත",
-      description:
-        "ඔබ කරන විකුණුම්, පාරිභෝගිකයගේ විස්තර සහ විකුණු භෝග පිළිබඳ විස්තර ඇතුලත් කරන්න.",
-      buttonText: "විකුණුම් දත්ත ඇතුලුම්පත",
-      next: "/sales",
-    },
-    {
-      imageSrc: "./cropsell.png",
-      title: "සියලුම විකුණුම්",
-      description:
-        "ඔබ විසින් සිදුකරන ලද සියලුම විකුණුම්, සහ විකුණුම් පිළිබඳ වාර්තාව බාගත කිරීමට මෙතනින් පිවිසෙන්න",
-      buttonText: "විකිණුම් විස්තර බලන්න",
-      next: "/allSale",
-    },
-    {
       imageSrc: "./ferti_reco.png",
       title: "පොහොර නිර්දේශක සේවාව",
       description:
@@ -53,46 +38,65 @@ const Home = () => {
       next: "/fertilizer",
     },
     {
-      imageSrc: "./ferti_reco.png",
-      title: "කෘෂිකරම භූමිය",
+      imageSrc: "./selling.png",
+      title: "විකුණුම් දත්ත ඇතුලුම්පත",
       description:
-        "වගාව පිළිබද දත්ත සපයමින් ඊට යෝග්‍ය පොහොර පිළිබඳව දැනගන්න.",
-      buttonText: "නිර්දේශ සේවාව",
-      next: "/cultivatedLandAreaChart",
+        "ඔබ කරන විකුණුම්, පාරිභෝගිකයගේ විස්තර සහ විකුණු භෝග පිළිබඳ විස්තර ඇතුලත් කරන්න.",
+      buttonText: "විකුණුම් දත්ත ඇතුලුම්පත",
+      next: "/sales",
     },
     {
-      imageSrc: "./ferti_reco.png",
+      imageSrc: "./sales.png",
+      title: "සියලුම විකුණුම්",
+      description:
+        "ඔබ විසින් සිදුකරන ලද සියලුම විකුණුම්, සහ විකුණුම් පිළිබඳ වාර්තාව බාගත කිරීමට මෙතනින් පිවිසෙන්න",
+      buttonText: "විකිණුම් විස්තර බලන්න",
+      next: "/allSale",
+    },
+    {
+      imageSrc: "./tools.png",
       title: "කෘෂිකාර්මික අයිතම සේවාව",
       description:
         "වගාබිම පිළිබද තොරතුරු සපයා ඊළඟට වගා කිරීමට සුදුසු භෝග පිළිබඳ උපදෙස් ලබාගන්න",
-      buttonText: "නිර්දේශ සේවාව",
+      buttonText: "පිවිසෙන්න",
       next: "/inventories",
     },
     {
-      imageSrc: "./ferti_reco.png",
-      title: "කෘෂිකාර්මික අයිතම සේවාව යාවත්කාලීන කිරීම",
+      imageSrc: "./equipment.png",
+      title: "කෘෂිකාර්මික අයිතම තොරතුරු",
       description:
         "වගාබිම පිළිබද තොරතුරු සපයා ඊළඟට වගා කිරීමට සුදුසු භෝග පිළිබඳ උපදෙස් ලබාගන්න",
-      buttonText: "නිර්දේශ සේවාව",
+      buttonText: "පිවිසෙන්න",
       next: "/adminInventories",
+    },
+    {
+      imageSrc: "./graph.png",
+      title: "ප්‍රදේශ අනුව වගා ව්‍යාප්තිය",
+      description:
+        "පළාත් අනුව ඒ ඒ ප්‍රදේශයන්හි වගා කර ඇති බෝග වර්ග සහ ඒවායේ ප්‍රමාණයන් පිළිබඳ විස්තර සඳහා පිවිසෙන්න.",
+      buttonText: "පිවිසෙන්න",
+      next: "/cultivatedLandAreaChart",
     },
   ];
   return (
-    <div className="px-4 mx-auto pt-30">
+    <>
       <Navbar />
-      <div className="grid grid-cols-1 gap-8 mx-auto mt-8 md:mt-36 md:grid-cols-2 sm:px-4">
-        {cardsData.map((card, index) => (
-          <HomeCards
-            key={index}
-            imageSrc={card.imageSrc}
-            title={card.title}
-            description={card.description}
-            buttonText={card.buttonText}
-            next={card.next}
-          />
-        ))}
+      <div className="px-4 mx-auto pt-30">
+        <div className="grid grid-cols-1 gap-8 mx-auto mt-8 md:mt-36 md:grid-cols-2 sm:px-4">
+          {cardsData.map((card, index) => (
+            <HomeCards
+              key={index}
+              imageSrc={card.imageSrc}
+              title={card.title}
+              description={card.description}
+              buttonText={card.buttonText}
+              next={card.next}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

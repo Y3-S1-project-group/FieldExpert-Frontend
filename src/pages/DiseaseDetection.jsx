@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router
 import Navbar from "../components/Navbar";
+import Footer from '../components/Footer/Footer';
 
 const DiseaseDetection = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -50,6 +51,7 @@ const DiseaseDetection = () => {
             ))}
           </div>
         </div>
+        <Footer />
     </>
   );
 };
