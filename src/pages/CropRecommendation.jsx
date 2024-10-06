@@ -6,11 +6,9 @@ import parse from "html-react-parser";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer/Footer";
 
-
 const CropRecommendation = () => {
-
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-  
+
   const [location, setLocation] = useState("");
   const [plantingMonth, setPlantingMonth] = useState("");
   const [cropMaturityTime, setMaturityTime] = useState("");
@@ -26,6 +24,9 @@ const CropRecommendation = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [areaError, setAreaError] = useState("");
+  const [maturityTimeError, setMaturityTimeError] = useState("");
+  const [financialCapitalError, setFinancialCapitalError] = useState("");
+  const [laborError, setLaborError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,11 +53,26 @@ const CropRecommendation = () => {
       }
 
       // Validate area
-    if (area <= 0) {
-      setAreaError("භූමි ප්‍රමාණය 0 ට වඩා අඩු විය නොහැක."); // Area cannot be 0 or less than 0
-      setLoading(false);
-      return;
-    }
+      if (area <= 0) {
+        setAreaError("භූමි ප්‍රමාණය 0 ට වඩා අඩු විය නොහැක."); // Area cannot be 0 or less than 0
+        setLoading(false);
+        return;
+      }
+
+      if (cropMaturityTime < 1 || cropMaturityTime > 24) {
+        setMaturityTimeError("බෝග පරිණත කාලය 0 ට වඩා අඩු විය නොහැක.");
+        setLoading(false);
+      }
+
+      if (financialCapital < 10000 || financialCapital > 1000000) {
+        setFinancialCapitalError(
+          "අවම මූල ප්‍රාග්ධනය රුපියල් 10000 සහ රුපියල් 1000000 කි."
+        );
+      }
+
+      if (labor < 1 || labor > 1000) {
+        setLaborError("අවම පුද්ගල සංඛ්‍යාව එකක් සහ දහස කි.");
+      }
 
       const messages = [
         {
@@ -203,6 +219,9 @@ const CropRecommendation = () => {
               className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
             />
+            {maturityTimeError && (
+              <p className="mt-1 text-sm text-red-600">{maturityTimeError}</p>
+            )}
           </div>
 
           {/* Financial capital Input */}
@@ -222,6 +241,11 @@ const CropRecommendation = () => {
               className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
             />
+            {financialCapitalError && (
+              <p className="mt-1 text-sm text-red-600">
+                {financialCapitalError}
+              </p>
+            )}
           </div>
 
           {/* Area Input */}
@@ -369,6 +393,9 @@ const CropRecommendation = () => {
               className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
             />
+            {laborError && (
+              <p className="mt-1 text-sm text-red-600">{laborError}</p>
+            )}
           </div>
 
           {/* Objectives Input */}
@@ -495,9 +522,7 @@ const CropRecommendation = () => {
         {/* Display crop suggestions */}
         {cropSuggestions && (
           <div className="p-4 mt-8 bg-green-100 border border-green-300 rounded">
-            <h3 className="text-xl font-semibold text-black">
-            නිර්දේශිත බෝග:
-            </h3>
+            <h3 className="text-xl font-semibold text-black">නිර්දේශිත බෝග:</h3>
             <p className="text-black">{cropSuggestions}</p>
           </div>
         )}
