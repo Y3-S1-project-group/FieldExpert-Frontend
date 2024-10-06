@@ -46,9 +46,9 @@ const CropRecommendation = () => {
         !waterSource ||
         !waterAvailability ||
         !labor ||
-        !objectives
+        objectives.length === 0
       ) {
-        setError("Please fill in all the required fields.");
+        setError("කරුණාකර අනිවාර්යයෙන් සියලු යෙදුම් ඇතුලත් කරන්න.");
         return;
       }
 
@@ -196,6 +196,7 @@ const CropRecommendation = () => {
               onChange={(e) => setMaturityTime(e.target.value)}
               className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
+              min="1"
             />
           </div>
 
@@ -478,7 +479,7 @@ const CropRecommendation = () => {
               className="w-full px-4 py-2 font-bold text-white bg-green-600 rounded-lg shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
               disabled={loading}
             >
-              {loading ? "Fetching..." : "Get Crop Recommendations"}
+              {loading ? "නිර්දේශ ලබාගනිමින්..." : "නිර්දේශ ලබාගන්න"}
             </button>
           </div>
         </form>
@@ -487,7 +488,7 @@ const CropRecommendation = () => {
         {cropSuggestions && (
           <div className="p-4 mt-8 bg-green-100 border border-green-300 rounded">
             <h3 className="text-xl font-semibold text-black">
-              Suggested Crops:
+            නිර්දේශිත බෝග:
             </h3>
             <p className="text-black">{cropSuggestions}</p>
           </div>
