@@ -255,12 +255,7 @@ const CultivatedLandAreaChart = () => {
                 )}
                 
             </div>  
-            <div className="fixed bottom-80 right-32 bg-white shadow-lg p-8 rounded-lg max-w-md w-100">
-        <h1 className="text-xl font-bold mb-2 text-gray-800">මෙමගින් !</h1>
-                <h3 className="text-xl text-gray-700">
-                    ඔබගේ වගාව සඳහා හොඳම පොහොර නිර්දේශ ලබා ගැනීමට, විශේෂිත පොහොර වර්ගයන් සහ යෙදීමේ උපදෙස් සපයයි. වගාව, භූමි ප්‍රදේශය, සහ පොහොර ප්‍රමාණය අනුව නිවැරදි පොහොර ක්‍රමවේදයන් පිළිබඳව තොරතුරු ලබා දේ.
-                </h3>
-            </div>
+            
         </div>
         
       </div>

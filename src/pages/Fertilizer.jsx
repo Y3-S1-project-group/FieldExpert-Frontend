@@ -20,6 +20,14 @@ const Fertilizer = () => {
         plantingDate: '',
         harvestDate: ''
     });
+    const [validationErrors, setValidationErrors] = useState({
+        cropName: '',
+        quantity: '',
+        area: '',
+        city: '',
+        plantingDate: '',
+        harvestDate: ''
+    });
     const [selectedItem, setSelectedItem] = useState(null);
 
     useEffect(() => {
@@ -40,10 +48,43 @@ const Fertilizer = () => {
     }, []);
 
     const handleChange = (e) => {
-        setNewCrop({
-            ...newCrop,
-            [e.target.name]: e.target.value
-        });
+        const { name, value } = e.target;
+        let error = '';
+        let shouldUpdate = true;
+
+        
+        // Validate based on field type
+        switch (name) {
+            case 'cropName':
+            case 'city':
+                if (!/^[\u0D80-\u0DFF\s]+$/.test(value)) {
+                    error = "කරුණාකර සිංහල අකුරු පමණක් භාවිතා කරන්න.";
+                    shouldUpdate = false;
+                }
+                break;
+            case 'quantity':
+                if (value && (isNaN(value) || parseInt(value) <= 10)) {
+                    error = "ප්‍රමාණය 10 ට වැඩි ධනාත්මක අගයක් විය යුතුය.";
+                }
+                break;
+            case 'area':
+                if (value && !/^\d+(\.\d+)?m²$/.test(value)) {
+                    error = "ප්‍රදේශය නිවැරදි ආකෘතියෙන් ඇතුළත් කරන්න (උදා: 100m²).";
+                }
+                break;
+        }
+
+        setValidationErrors(prev => ({
+            ...prev,
+            [name]: error
+        }));
+
+        if (shouldUpdate) {
+            setNewCrop(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -52,43 +93,23 @@ const Fertilizer = () => {
 
         const plantingDateObj = new Date(newCrop.plantingDate);
         const harvestDateObj = new Date(newCrop.harvestDate);
-
-        // Get the current date
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
 
-        // Validation checks
-        if (!/^[^0-9]+$/.test(newCrop.cropName)) {
-            setError('බෝගයේ නම සඳහා අකුරු පමණක් භාවිතා කරන්න.');
-            setLoading(false);
-            return;
-        }
-
-        if (parseInt(newCrop.quantity) <= 10) {
-            setError('ප්‍රමාණය ධනාත්මක අගයක් විය යුතුය.');
-            setLoading(false);
-            return;
-        }
-
-        if (!/^\d+(\.\d+)?m²$/.test(newCrop.area)) {
-            setError('ප්‍රදේශය නිවැරදි ආකෘතියෙන් ඇතුළත් කරන්න (උදා: 100m²).');
-            setLoading(false);
-            return;
-        }
-        if (!/^[^0-9]+$/.test(newCrop.city)) {
-            setError('නගරයේ නම සඳහා අකුරු පමණක් භාවිතා කරන්න.');
-            return;
-        }
-
+        // Date validations
         if (harvestDateObj <= plantingDateObj) {
             setError('අස්වැන්න ලබාගන්නා දිනය වගා කරන දිනයට පසු විය යුතුය.');
-            setLoading(false);
             return;
         }
 
         if (plantingDateObj < currentDate) {
             setError('වගා කරන දිනය අද දිනයට පෙර විය නොහැක.');
-            setLoading(false);
+            return;
+        }
+
+        // Check for any validation errors
+        if (Object.values(validationErrors).some(error => error !== '')) {
+            setError('කරුණාකර සියලුම වැරදි නිවැරදි කරන්න.');
             return;
         }
 
@@ -111,6 +132,14 @@ const Fertilizer = () => {
             const result = await response.json();
             setCrops(prevCrops => [...prevCrops, result]);
             setNewCrop({
+                cropName: '',
+                quantity: '',
+                area: '',
+                city: '',
+                plantingDate: '',
+                harvestDate: ''
+            });
+            setValidationErrors({
                 cropName: '',
                 quantity: '',
                 area: '',
@@ -316,7 +345,9 @@ const Fertilizer = () => {
                                         බෝගයේ නම:
                                     </label>
                                     <input
-                                        className="shadow appearance-none border rounded w-full py-3 px-4 text-xl text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
+                                       className={`shadow appearance-none border rounded w-full py-3 px-4 text-xl text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white ${
+                                        validationErrors.cropName ? 'border-red-500' : ''
+                                    }`}
                                         id="cropName"
                                         type="text"
                                         name="cropName"
@@ -325,13 +356,18 @@ const Fertilizer = () => {
                                         required
                                          placeholder="උදා: වී"
                                     />
+                                    {validationErrors.cropName && (
+                                            <p className="text-red-500 text-sm mt-1">{validationErrors.cropName}</p>
+                                        )}
                                 </div>
                                 <div className="mb-4">
                                     <label className="block text-gray-700 text-xl font-bold mb-2" htmlFor="quantity">
                                         බෝගප්‍රමාණය:
                                     </label>
                                     <input
-                                        className="shadow appearance-none border rounded w-full py-3 px-4 text-xl text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
+                                         className={`shadow appearance-none border rounded w-full py-3 px-4 text-xl text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white ${
+                                            validationErrors.quantity ? 'border-red-500' : ''
+                                        }`}
                                         id="quantity"
                                         type="number"
                                         name="quantity"
@@ -340,13 +376,18 @@ const Fertilizer = () => {
                                         required
                                          placeholder="උදා: 10"
                                     />
+                                      {validationErrors.quantity && (
+                                            <p className="text-red-500 text-sm mt-1">{validationErrors.quantity}</p>
+                                        )}
                                 </div>
                                 <div className="mb-4">
                                     <label className="block text-gray-700 text-xl font-bold mb-2" htmlFor="area">
                                     වගා කරන භූමි ප්‍රමාණය:
                                     </label>
                                     <input
-                                        className="shadow appearance-none border rounded w-full py-3 px-4 text-xl text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
+                                       className={`shadow appearance-none border rounded w-full py-3 px-4 text-xl text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white ${
+                                        validationErrors.area ? 'border-red-500' : ''
+                                    }`}
                                         id="area"
                                         type="text"
                                         name="area"
@@ -355,13 +396,19 @@ const Fertilizer = () => {
                                         required
                                         placeholder="උදා: 100m²"
                                     />
+                                    {validationErrors.area && (
+                                            <p className="text-red-500 text-sm mt-1">{validationErrors.area}</p>
+                                        )}
+                                    
                                 </div>
                                 <div className="mb-4">
                                     <label className="block text-gray-700 text-xl font-bold mb-2" htmlFor="city">
                                       ප්‍රදේශය:
                                     </label>
                                     <input
-                                        className="shadow appearance-none border rounded w-full py-3 px-4 text-xl text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
+                                          className={`shadow appearance-none border rounded w-full py-3 px-4 text-xl text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white ${
+                                            validationErrors.city ? 'border-red-500' : ''
+                                        }`}
                                         id="city"
                                         type="text"
                                         name="city"
@@ -370,6 +417,9 @@ const Fertilizer = () => {
                                         required
                                          placeholder="උදා: අනුරාධපුරය"
                                     />
+                                     {validationErrors.city && (
+                                            <p className="text-red-500 text-sm mt-1">{validationErrors.city}</p>
+                                        )}
                                 </div>
 
                                 <div className="mb-4">
@@ -497,12 +547,6 @@ const Fertilizer = () => {
                 </div>
             </div>
         </div>
-        <div className="fixed bottom-80 right-32 bg-white shadow-lg p-8 rounded-lg max-w-md w-100">
-        <h1 className="text-xl font-bold mb-2 text-gray-800">මෙමගින් !</h1>
-                <h3 className="text-xl text-gray-700">
-                    ඔබගේ වගාව සඳහා හොඳම පොහොර නිර්දේශ ලබා ගැනීමට, විශේෂිත පොහොර වර්ගයන් සහ යෙදීමේ උපදෙස් සපයයි. වගාව, භූමි ප්‍රදේශය, සහ පොහොර ප්‍රමාණය අනුව නිවැරදි පොහොර ක්‍රමවේදයන් පිළිබඳව තොරතුරු ලබා දේ.
-                </h3>
-            </div>
             </div>
             
     </div>
