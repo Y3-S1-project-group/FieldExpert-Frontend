@@ -63,7 +63,7 @@ const PestDetection = () => {
   };
 
   return (
-    <div className="min-h-screen bg">
+    <div>
       <Navbar />
       <div className="max-w-3xl p-6 mx-auto mt-40 bg-white border border-gray-300 rounded-lg shadow-lg">
         <h2 className="text-black">පලිබෝධකයන් හදුනාගැනීම</h2>
