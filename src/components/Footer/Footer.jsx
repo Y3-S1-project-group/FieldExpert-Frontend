@@ -7,8 +7,8 @@ const Footer = () => {
       <footer className="footer">
         <div className="footer-container">
           <div className="footer-info">
-            <h3>FieldExpert</h3>
-            <p>SLIIT Malabe Campus, New Kandy Rd, Malabe</p>
+            <h3>FieldExpert (Pvt.) Ltd.</h3>
+            <p>නුවර පාර, මාලඹේ</p>
             <p>Email: info@fieldxpert.com</p>
             <p>Phone: +94 75 494 7189</p>
           </div>
