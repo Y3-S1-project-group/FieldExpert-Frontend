@@ -9,8 +9,6 @@ import Footer from "../components/Footer/Footer";
 
 const CropRecommendation = () => {
 
-  
-  // const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
   
   const [location, setLocation] = useState("");
@@ -27,6 +25,7 @@ const CropRecommendation = () => {
   const [cropSuggestions, setCropSuggestions] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [areaError, setAreaError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,6 +50,13 @@ const CropRecommendation = () => {
         setError("කරුණාකර අනිවාර්යයෙන් සියලු යෙදුම් ඇතුලත් කරන්න.");
         return;
       }
+
+      // Validate area
+    if (area <= 0) {
+      setAreaError("භූමි ප්‍රමාණය 0 ට වඩා අඩු විය නොහැක."); // Area cannot be 0 or less than 0
+      setLoading(false);
+      return;
+    }
 
       const messages = [
         {
@@ -196,7 +202,6 @@ const CropRecommendation = () => {
               onChange={(e) => setMaturityTime(e.target.value)}
               className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
-              min="1"
             />
           </div>
 
@@ -236,6 +241,9 @@ const CropRecommendation = () => {
               className="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
             />
+            {areaError && (
+              <p className="mt-2 text-sm text-red-600">{areaError}</p>
+            )}
           </div>
 
           {/* Soil Type Dropdown */}
