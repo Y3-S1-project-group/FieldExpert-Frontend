@@ -33,59 +33,74 @@ const CropRecommendation = () => {
     setLoading(true);
     setError("");
     setCropSuggestions("");
-
+    
+    // Reset validation errors
+    setAreaError("");
+    setMaturityTimeError("");
+    setFinancialCapitalError("");
+    setLaborError("");
+  
+    // Perform validations
+    if (
+      !location ||
+      !plantingMonth ||
+      !cropMaturityTime ||
+      !financialCapital ||
+      !area ||
+      !soilType ||
+      !topography ||
+      !waterSource ||
+      !waterAvailability ||
+      !labor ||
+      objectives.length === 0
+    ) {
+      setError("කරුණාකර අනිවාර්යයෙන් සියලු යෙදුම් ඇතුලත් කරන්න.");
+      setLoading(false);
+      return;
+    }
+  
+    // Validate area
+    if (area <= 0) {
+      setAreaError("භූමි ප්‍රමාණය 0 ට වඩා අඩු විය නොහැක.");
+      setLoading(false);
+      return;
+    }
+  
+    // Validate crop maturity time
+    if (cropMaturityTime < 1 || cropMaturityTime > 24) {
+      setMaturityTimeError("බෝග පරිණත කාලය 1 සහ 24 මාස අතර විය යුතුය.");
+      setLoading(false);
+      return;
+    }
+  
+    // Validate financial capital
+    if (financialCapital < 10000 || financialCapital > 1000000) {
+      setFinancialCapitalError("අවම මූල ප්‍රාග්ධනය රුපියල් 10000 සහ රුපියල් 1000000 අතර විය යුතුය.");
+      setLoading(false);
+      return;
+    }
+  
+    // Validate labor
+    if (labor < 1 || labor > 1000) {
+      setLaborError("අවම පුද්ගල සංඛ්‍යාව 1 සහ 1000 අතර විය යුතුය.");
+      setLoading(false);
+      return;
+    }
+  
+    // If no validation errors, proceed with the API request
     try {
-      if (
-        !location ||
-        !plantingMonth ||
-        !cropMaturityTime ||
-        !financialCapital ||
-        !area ||
-        !soilType ||
-        !topography ||
-        !waterSource ||
-        !waterAvailability ||
-        !labor ||
-        objectives.length === 0
-      ) {
-        setError("කරුණාකර අනිවාර්යයෙන් සියලු යෙදුම් ඇතුලත් කරන්න.");
-        return;
-      }
-
-      // Validate area
-      if (area <= 0) {
-        setAreaError("භූමි ප්‍රමාණය 0 ට වඩා අඩු විය නොහැක."); // Area cannot be 0 or less than 0
-        setLoading(false);
-        return;
-      }
-
-      if (cropMaturityTime < 1 || cropMaturityTime > 24) {
-        setMaturityTimeError("බෝග පරිණත කාලය 0 ට වඩා අඩු විය නොහැක.");
-        setLoading(false);
-      }
-
-      if (financialCapital < 10000 || financialCapital > 1000000) {
-        setFinancialCapitalError(
-          "අවම මූල ප්‍රාග්ධනය රුපියල් 10000 සහ රුපියල් 1000000 කි."
-        );
-      }
-
-      if (labor < 1 || labor > 1000) {
-        setLaborError("අවම පුද්ගල සංඛ්‍යාව එකක් සහ දහස කි.");
-      }
-
       const messages = [
         {
           role: "system",
           content:
-            "You are a Sri Lankan agricultural expert providing crop suggestions based on farmland conditions. Answer should be embedded in HTML tags inside a <div>. Bold the crop names. Don't use asterixs, use only HTML tags. Give reasons for every crop.",
+            "You are a Sri Lankan agricultural expert providing crop suggestions based on farmland conditions. Answer should be embedded in HTML tags inside a <div>. Bold the crop names. Don't use asterisks, use only HTML tags. Give reasons for every crop.",
         },
         {
           role: "user",
           content: `I'm a farmer, and my farmland is located in the ${location} district of Sri Lanka. I hope to plant a new crop in ${plantingMonth}, expecting a ${cropMaturityTime} months maturity time. I have a capital of ${financialCapital} Sri Lankan rupees, and my farmland area is ${area} acres. The soil type is ${soilType}, and the topography of my land is ${topography}. I have access to a water source which is ${waterSource}, and the water availability is ${waterAvailability}. Additionally, the labor availability is ${labor}. Objectives of this planting are ${objectives}. Based on these details, please suggest a list of the most suitable crops to plant.`,
         },
       ];
-
+  
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
         {
@@ -101,9 +116,9 @@ const CropRecommendation = () => {
           },
         }
       );
-
+  
       console.log(response.data);
-
+  
       setCropSuggestions(parse(response.data.choices[0].message.content));
     } catch (error) {
       console.error("Error fetching crop recommendation:", error);
@@ -112,6 +127,7 @@ const CropRecommendation = () => {
       setLoading(false);
     }
   };
+  
 
   return (
     <>
