@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "node": "true",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -10,9 +11,29 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.5",
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "chart.js": "^4.4.4",
+    "date-fns": "^4.0.0-beta.1",
+    "jspdf-autotable": "^3.8.3",
+    "pdfmake": "^0.2.12",
+    "html-react-parser": "^5.1.17",
+    "html2canvas": "^1.4.1",
+    "html2pdf.js": "^0.10.2",
+    "jspdf": "^2.5.1",
+    "openai": "^4.63.0",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.0"
+    "react-icons": "^5.3.0",
+    "react-router-dom": "^6.26.1",
+    "react-to-print": "^3.0.1",
+    "react-toastify": "^10.0.5",
+    "sonner": "^1.5.0",
+    "sweetalert": "^2.1.2",
+    "sweetalert2": "^11.13.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
@@ -26,7 +47,7 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
     "postcss": "^8.4.41",
-    "tailwindcss": "^3.4.9",
-    "vite": "^5.4.0"
+    "tailwindcss": "^3.4.10",
+    "vite": "^5.4.8"
   }
 }
