@@ -3,17 +3,19 @@ import { Link } from "react-router-dom";
 
 const HomeCards = ({ imageSrc, title, description, buttonText, next }) => {
   return (
-    <div className="flex flex-row max-w-4xl gap-5 p-5 mx-auto bg-white border border-gray-300 rounded-lg shadow-lg">
+    <div className="flex flex-col max-w-4xl gap-5 p-5 mx-auto bg-white border border-gray-300 rounded-lg shadow-lg md:flex-row">
       <img
         src={imageSrc}
         alt={title}
-        className="object-cover w-64 h-64 rounded-lg"
+        className="object-cover w-full h-64 rounded-lg md:w-64"
       />
-      <div className="flex flex-col justify-between w-1/2">
+      <div className="flex flex-col justify-between w-full mt-4 md:mt-0">
         <h2 className="text-2xl font-semibold text-gray-800">{title}</h2>
         <p className="mt-2 text-gray-600">{description}</p>
-        <Link to={next} 
-        className="self-start px-4 py-2 mt-4 text-white bg-green-600 rounded-lg shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+        <Link
+          to={next}
+          className="self-start px-4 py-2 mt-4 text-white bg-green-600 rounded-lg shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+        >
           {buttonText}
         </Link>
       </div>
