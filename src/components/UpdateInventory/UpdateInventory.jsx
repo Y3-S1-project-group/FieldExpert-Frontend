@@ -27,9 +27,13 @@ const UpdateInventory = ({ itemId }) => {
     let isValid = true;
 
     if (!ItemID) {
-      errors.itemId = "අයිතමය අංකය අවශ්‍ය වේ";
+      errors.itemId = "අයිතම අංකය අවශ්‍ය වේ";
+      isValid = false;
+    } else if (ItemID.length > 5) {
+      errors.itemId = "අයිතම අංකය අකුරු 5ක් තරමට විය යුතුයි";
       isValid = false;
     }
+    
 
     if (!ItemName) {
       errors.itemName = "අයිතම නාමය අවශ්‍ය වේ";
@@ -60,9 +64,12 @@ const UpdateInventory = ({ itemId }) => {
       errors.purchaseDate = "මිලට ගත් දිනය අවශ්‍ය වේ";
       isValid = false;
     }
-
+    
     if (!ExpiryDate) {
       errors.expiryDate = "කල් ඉකුත් වීමේ දිනය අවශ්‍ය වේ";
+      isValid = false;
+    } else if (new Date(ExpiryDate) <= new Date(PurchaseDate)) {
+      errors.expiryDate = "කල් ඉකුත් වීමේ දිනය මිලට ගත් දිනයට පසු විය යුතුයි";
       isValid = false;
     }
 
